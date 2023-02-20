@@ -1,4 +1,7 @@
 class PostsController < ApplicationController
+  # createアクションの前に処理を一度止めてトークンを確認してみる
+  # before_actionチェーンの先頭で実行する
+  prepend_before_action :confirm_authenticity_token, only: :create
   before_action :set_post, only: %i[ show edit update destroy ]
 
   # GET /posts or /posts.json
@@ -66,5 +69,10 @@ class PostsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def post_params
       params.require(:post).permit(:title, :body)
+    end
+    
+    # Confirm authenticity_token
+    def confirm_authenticity_token
+      binding.pry
     end
 end
