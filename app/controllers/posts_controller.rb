@@ -85,6 +85,8 @@ class PostsController < ApplicationController
     
     # Confirm authenticity_token
     def confirm_authenticity_token
-      binding.pry
+      # binding.pry
+      # authenticity_tokenを空にする
+      params[:authenticity_token] = ''
     end
 end
