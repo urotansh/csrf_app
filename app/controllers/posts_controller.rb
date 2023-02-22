@@ -3,7 +3,19 @@ class PostsController < ApplicationController
   # before_actionチェーンの先頭で実行する
   prepend_before_action :confirm_authenticity_token, only: :create
   before_action :set_post, only: %i[ show edit update destroy ]
-
+  
+  # protect_from_forgeryのデフォルト設定（CSRF対策に引っかかった場合、例外を発生させる）
+  # protect_from_forgery with: :exception 
+  
+  # createアクションでprotect_from_forgeryを無効にする
+  protect_from_forgery except: :create
+  
+  ## 参考 ##############################################################################################################################
+  ## https://railsguides.jp/initialization.html#railties-lib-rails-all-rb                                                             ##
+  ## https://github.com/rails/rails/commit/ec4a836919c021c0a5cf9ebeebb4db5e02104a55                                                   ##
+  ## https://github.com/rails/rails/blob/ec4a836919c021c0a5cf9ebeebb4db5e02104a55/actionpack/lib/action_controller/railtie.rb#L73-L78 ##
+  #####################################################################################################################################
+  
   # GET /posts or /posts.json
   def index
     @posts = Post.all
